@@ -1,2 +1,2 @@
 # coding100
-this is blog
+让我们一起来学习Laravel吧!

@@ -1,7 +1,7 @@
 @extends('layouts.app')
 @section('content')
-    <div class="container">
-        <div class="text-center text-warning"><span style="font-size: 25px">博客列表</span> <span class="float-right">总计：{{ $posts->total() }}</span></div>
+    <div class="container text-center">
+        <div class="text-center text-danger"><span style="font-size: 25px">博客列表</span> <span class="float-right">总计：{{ $posts->total() }}</span></div>
         <hr>
         @foreach($posts as $post)
             <div class="text-center">

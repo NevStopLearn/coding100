@@ -1,7 +1,7 @@
 <!-- 引入编辑器需要的 css,js 等文件 -->
 @include('vendor.ueditor.assets')
 <!-- 编辑器容器 -->
-<script id="container" name="body" style="height: 200px" type="text/plain">{!! old('body') !!}</script>
+<script id="container" name="body" style="height: 200px" type="text/plain">{!! $post->body ?? old('body') !!}</script>
 <!-- 实例化编辑器 -->
 <script type="text/javascript">
     var ue = UE.getEditor('container',{

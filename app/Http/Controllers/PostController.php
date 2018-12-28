@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Post;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 use App\Http\Requests\StoreBlogPost;
 use Illuminate\Support\Facades\Auth;
 
@@ -40,7 +41,7 @@ class PostController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Http\Requests\StoreBlogPost  $request
      * @return \Illuminate\Http\Response
      */
     public function store(StoreBlogPost $request)
@@ -61,7 +62,7 @@ class PostController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  \App\Post
      * @return \Illuminate\Http\Response
      */
     public function show(Post $post)
@@ -73,24 +74,37 @@ class PostController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  \App\Post
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Post $post)
     {
-        //
+        return view('posts.edit',compact('post'));
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \App\Post
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Post $post)
     {
-        //
+        $this->validate($request,[
+            'title'     => ['required',Rule::unique('posts')->ignore($post->id),'min:6'],
+            'body'      => 'required|min:30'
+        ],[
+            'title.required'    => '标题不能为空！',
+            'title.unique'      => '标题已被占用！',
+            'title.min'         => '标题不能少于6位字符！',
+            'body.required'     => '文章内容不能为空！',
+            'body.min'          => '文章内容不能少于30位字符！'
+        ]);
+
+        $post->update($request->all());
+
+        return redirect()->route('post.show',$post->id);
     }
 
     /**
